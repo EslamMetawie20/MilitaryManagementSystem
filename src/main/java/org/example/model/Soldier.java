@@ -10,17 +10,18 @@ public class Soldier {
     private String weapon;
     private String phoneNumber;
     private Date birthDate;
-    private List<String> relatives; // List of relatives
-    private List<String> relativesPhoneNumbers; // Phone numbers of relatives
+    private String relatives; // List of relatives
+    private String relativesPhoneNumbers; // Phone numbers of relatives
     private String punishment;
     private String grant;
-    private byte[] photo; // To store the soldier's photo as a byte array
+    private byte[] photo;
     private String barcode;
+    private String MilitaryNumber;
 
     // Constructor
     public Soldier(String name, String nationalId, String address, String weapon, String phoneNumber,
-                   Date birthDate, List<String> relatives, List<String> relativesPhoneNumbers, String punishment,
-                   String grant, byte[] photo, String barcode) {
+                   Date birthDate, String relatives, String relativesPhoneNumbers, String punishment,
+                   String grant, byte[] photo, String barcode,String MilitaryNumber) {
         this.name = name;
         this.nationalId = nationalId;
         this.address = address;
@@ -33,6 +34,7 @@ public class Soldier {
         this.grant = grant;
         this.photo = photo;
         this.barcode = barcode;
+        this.MilitaryNumber = MilitaryNumber;
     }
 
     // Getters and Setters
@@ -84,19 +86,19 @@ public class Soldier {
         this.birthDate = birthDate;
     }
 
-    public List<String> getRelatives() {
+    public String getRelatives() {
         return relatives;
     }
 
-    public void setRelatives(List<String> relatives) {
+    public void setRelatives(String relatives) {
         this.relatives = relatives;
     }
 
-    public List<String> getRelativesPhoneNumbers() {
+    public String getRelativesPhoneNumbers() {
         return relativesPhoneNumbers;
     }
 
-    public void setRelativesPhoneNumbers(List<String> relativesPhoneNumbers) {
+    public void setRelativesPhoneNumbers(String relativesPhoneNumbers) {
         this.relativesPhoneNumbers = relativesPhoneNumbers;
     }
 
@@ -118,6 +120,14 @@ public class Soldier {
 
     public byte[] getPhoto() {
         return photo;
+    }
+
+    public String getMilitaryNumber() {
+        return MilitaryNumber;
+    }
+
+    public void setMilitaryNumber(String militaryNumber) {
+        MilitaryNumber = militaryNumber;
     }
 
     public void setPhoto(byte[] photo) {

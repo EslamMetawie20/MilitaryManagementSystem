@@ -21,17 +21,46 @@ public class MainView extends Application {
         // إنشاء الأعمدة
         TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(data -> data.getValue().nameProperty());
+        nameColumn.setMinWidth(100);
 
         TableColumn<SoldierRow, String> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(data -> data.getValue().idProperty());
+        idColumn.setMinWidth(100);
+
+        TableColumn<SoldierRow, String> addressColumn = new TableColumn<>("Address");
+        addressColumn.setCellValueFactory(data -> data.getValue().addressProperty());
+        addressColumn.setMinWidth(150);
 
         TableColumn<SoldierRow, String> weaponColumn = new TableColumn<>("Weapon");
         weaponColumn.setCellValueFactory(data -> data.getValue().weaponProperty());
+        weaponColumn.setMinWidth(100);
 
         TableColumn<SoldierRow, String> phoneColumn = new TableColumn<>("Phone Number");
         phoneColumn.setCellValueFactory(data -> data.getValue().phoneProperty());
+        phoneColumn.setMinWidth(150);
 
-        table.getColumns().addAll(nameColumn, idColumn, weaponColumn, phoneColumn);
+        TableColumn<SoldierRow, String> relativesColumn = new TableColumn<>("Relatives");
+        relativesColumn.setCellValueFactory(data -> data.getValue().relativesProperty());
+        relativesColumn.setMinWidth(150);
+
+        TableColumn<SoldierRow, String> punishmentColumn = new TableColumn<>("Punishment");
+        punishmentColumn.setCellValueFactory(data -> data.getValue().punishmentProperty());
+        punishmentColumn.setMinWidth(100);
+
+        TableColumn<SoldierRow, String> grantColumn = new TableColumn<>("Grant");
+        grantColumn.setCellValueFactory(data -> data.getValue().grantProperty());
+        grantColumn.setMinWidth(100);
+
+        TableColumn<SoldierRow, String> militaryNumberColumn = new TableColumn<>("Military Number");
+        militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
+        militaryNumberColumn.setMinWidth(150);
+
+        // إضافة الأعمدة إلى الجدول
+        table.getColumns().addAll(
+                nameColumn, idColumn, addressColumn, weaponColumn,
+                phoneColumn, relativesColumn, punishmentColumn,
+                grantColumn, militaryNumberColumn
+        );
 
         // إعداد الجدول ليعرض فقط الأعمدة الفارغة إذا لم يكن هناك بيانات
         table.setPlaceholder(new Label("No soldiers available"));
@@ -50,17 +79,18 @@ public class MainView extends Application {
         root.setBottom(buttonBox);
 
         // إعداد النافذة
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1000, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Soldiers Management");
         primaryStage.show();
 
-        // الأحداث
+        // إضافة حدث زر "Add Soldier"
         addButton.setOnAction(e -> {
             AddSoldierView addView = new AddSoldierView(soldiers);
             addView.display();
         });
 
+        // إضافة حدث زر "Delete Soldier"
         deleteButton.setOnAction(e -> {
             SoldierRow selected = table.getSelectionModel().getSelectedItem();
             if (selected != null) {
