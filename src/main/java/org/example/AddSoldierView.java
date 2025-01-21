@@ -4,9 +4,12 @@ import javafx.collections.ObservableList;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 
 public class AddSoldierView {
     private ObservableList<SoldierRow> soldiers;
@@ -27,11 +30,31 @@ public class AddSoldierView {
         TextField nationalIdField = new TextField();
         nationalIdField.setPromptText("الرقم القومي");
 
+        TextField Militry_NumberField = new TextField();
+        Militry_NumberField.setPromptText("الرقم العسكري");
+
         TextField FieldAddress = new TextField();
         FieldAddress.setPromptText("العنوان");
 
-        TextField weaponField = new TextField();
+        ComboBox weaponField = new ComboBox<>();
         weaponField.setPromptText("السلاح");
+        weaponField.getItems().addAll(
+                "المركبات",
+                "مدرعات",
+                "أسلحة و ذخيرة",
+                "مشاة",
+                "مهندسين عسكريين",
+                "أشغال عسكرية",
+                "حرب إلكترونية",
+                "حرب كيميائية",
+                "إمداد وتموين",
+                "شؤون مالية",
+                "دفاع جوي",
+                "قوات بحرية",
+                "قوات جوية",
+                "نقل",
+                "مدفعيه "
+        );
 
         TextField phoneNumberField = new TextField();
         phoneNumberField.setPromptText("رقم الهاتف");
@@ -45,8 +68,6 @@ public class AddSoldierView {
         TextField GrantField = new TextField();
         GrantField.setPromptText("المنح");
 
-        TextField Militry_NumberField = new TextField();
-        Militry_NumberField.setPromptText("الرقم العسكري");
 
         Button saveButton = new Button("حفظ");
         saveButton.setStyle("-fx-background-color: green; -fx-text-fill: white;");
@@ -63,11 +84,12 @@ public class AddSoldierView {
         stage.show();
 
         saveButton.setOnAction(e -> {
+            String selectedWeapon = (String) weaponField.getValue();
             SoldierRow soldier = new SoldierRow(
                     nameField.getText(),
                     nationalIdField.getText(),
                     FieldAddress.getText(),
-                    weaponField.getText(),
+                    selectedWeapon,
                     phoneNumberField.getText(),
                     relativesField.getText(),
                     PunishmentsField.getText(),
