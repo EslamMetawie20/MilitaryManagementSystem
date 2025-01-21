@@ -74,8 +74,8 @@ public class MainView extends Application {
                         try {
                             Image image = new Image(new File(barcodePath).toURI().toString());
                             imageView.setImage(image);
-                            imageView.setFitHeight(50);
-                            imageView.setFitWidth(50);
+                            imageView.setFitHeight(40);
+                            imageView.setFitWidth(120);
                             imageView.setPreserveRatio(true);
                             setGraphic(imageView);
                         } catch (Exception e) {
