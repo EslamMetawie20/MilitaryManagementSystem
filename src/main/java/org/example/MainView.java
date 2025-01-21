@@ -58,6 +58,11 @@ public class MainView extends Application {
         militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
         militaryNumberColumn.setMinWidth(150);
 
+        TableColumn<SoldierRow, String> dateOfBirthColumn = new TableColumn<>("تاريخ الميلاد");
+        dateOfBirthColumn.setCellValueFactory(data -> data.getValue().dateOfBirthProperty());
+        dateOfBirthColumn.setMinWidth(150); // تعديل الحجم لو احتجت
+
+
         TableColumn<SoldierRow, String> barcodeColumn = new TableColumn<>("الباركود");
         barcodeColumn.setCellValueFactory(data -> data.getValue().barcodeProperty());
         barcodeColumn.setCellFactory(column -> {
@@ -87,7 +92,7 @@ public class MainView extends Application {
         });
 
         table.getColumns().addAll(
-                nameColumn, idColumn, addressColumn, weaponColumn,
+                nameColumn, idColumn, addressColumn,dateOfBirthColumn, weaponColumn,
                 phoneColumn, relativesColumn, punishmentColumn,
                 grantColumn, militaryNumberColumn, barcodeColumn
         );

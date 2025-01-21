@@ -9,16 +9,18 @@ public class SoldierRow {
     private StringProperty address;
     private StringProperty weapon;
     private StringProperty phone;
+    private StringProperty dateOfBirth;
     private StringProperty relatives;
     private StringProperty punishment;
     private StringProperty grant;
     private StringProperty militaryNumber;
     private StringProperty barcode;
-    public SoldierRow(String name, String id, String address, String weapon, String phone,
+    public SoldierRow(String name, String id, String address, String dateOfBirth, String weapon, String phone,
                       String relatives, String punishment, String grant, String militaryNumber, String barcode) {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleStringProperty(id);
         this.address = new SimpleStringProperty(address);
+        this.dateOfBirth = new SimpleStringProperty(dateOfBirth);
         this.weapon = new SimpleStringProperty(weapon);
         this.phone = new SimpleStringProperty(phone);
         this.relatives = new SimpleStringProperty(relatives);
@@ -27,6 +29,7 @@ public class SoldierRow {
         this.militaryNumber = new SimpleStringProperty(militaryNumber);
         this.barcode = new SimpleStringProperty(barcode);
     }
+
 
     public StringProperty nameProperty() {
         return name;
@@ -67,6 +70,9 @@ public class SoldierRow {
         return barcode;
     }
 
+    public StringProperty dateOfBirthProperty() {
+        return dateOfBirth;
+    }
     public String getBarcode() {
         return barcode.get();
     }

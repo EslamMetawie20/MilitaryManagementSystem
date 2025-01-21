@@ -3,10 +3,7 @@ package org.example;
 import javafx.collections.ObservableList;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -69,12 +66,14 @@ public class AddSoldierView {
         TextField GrantField = new TextField();
         GrantField.setPromptText("المنح");
 
+        DatePicker dateOfBirth =new DatePicker();
+        dateOfBirth.setPromptText("تاريخ الميلاد");
 
         Button saveButton = new Button("حفظ");
         saveButton.setStyle("-fx-background-color: green; -fx-text-fill: white;");
 
         root.getChildren().addAll(
-                nameField, nationalIdField, FieldAddress, weaponField,
+                nameField, nationalIdField, FieldAddress,dateOfBirth, weaponField,
                 phoneNumberField, relativesField, PunishmentsField,
                 GrantField, Militry_NumberField, saveButton
         );
@@ -95,18 +94,18 @@ public class AddSoldierView {
             }
 
             try {
-                // تنظيف الرقم القومي من أي مسافات
                 String nationalId = nationalIdField.getText().trim();
                 String barcodePath = BarcodeGenerator.generateBarcode(nationalId);
-
                 if (barcodePath != null) {
                     String weapon = (String) weaponField.getValue();
-                    if (weapon == null) weapon = "";  // للتأكد من عدم وجود null
+                    if (weapon == null) weapon = "";
+                    String dateOfBirthValue = dateOfBirth.getValue() != null ? dateOfBirth.getValue().toString() : "";
 
                     SoldierRow soldier = new SoldierRow(
                             nameField.getText().trim(),
                             nationalId,
                             FieldAddress.getText().trim(),
+                            dateOfBirthValue,
                             weapon,
                             phoneNumberField.getText().trim(),
                             relativesField.getText().trim(),

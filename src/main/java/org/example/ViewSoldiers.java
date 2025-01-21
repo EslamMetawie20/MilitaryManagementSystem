@@ -44,6 +44,9 @@ public class ViewSoldiers {
         TableColumn<SoldierRow, String> militaryNumberColumn = new TableColumn<>("الرقم العسكري");
         militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
 
+        TableColumn<SoldierRow, String> dateOfbirthColumn = new TableColumn<>("تاريخ الميلاد");
+        dateOfbirthColumn.setCellValueFactory(data -> data.getValue().dateOfBirthProperty());
+
         TableColumn<SoldierRow, String> barcodeColumn = new TableColumn<>("الباركود");
         barcodeColumn.setCellValueFactory(data -> data.getValue().barcodeProperty());
         table.getColumns().add(barcodeColumn);
@@ -52,6 +55,7 @@ public class ViewSoldiers {
                 nameColumn,
                 idColumn,
                 addressColumn,
+                dateOfbirthColumn,
                 weaponColumn,
                 phoneColumn,
                 relativesColumn,
