@@ -21,7 +21,7 @@ public class MainView extends Application {
     @Override
     public void start(Stage primaryStage) {
         TableView<SoldierRow> table = new TableView<>(soldiers);
-
+        primaryStage.setMaximized(true);
         TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("الاسم");
         nameColumn.setCellValueFactory(data -> data.getValue().nameProperty());
         nameColumn.setMinWidth(100);
@@ -60,7 +60,7 @@ public class MainView extends Application {
 
         TableColumn<SoldierRow, String> dateOfBirthColumn = new TableColumn<>("تاريخ الميلاد");
         dateOfBirthColumn.setCellValueFactory(data -> data.getValue().dateOfBirthProperty());
-        dateOfBirthColumn.setMinWidth(150); // تعديل الحجم لو احتجت
+        dateOfBirthColumn.setMinWidth(150);
 
 
         TableColumn<SoldierRow, String> barcodeColumn = new TableColumn<>("الباركود");
@@ -90,6 +90,19 @@ public class MainView extends Application {
                 }
             };
         });
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        nameColumn.setStyle("-fx-alignment: CENTER;");
+        idColumn.setStyle("-fx-alignment: CENTER;");
+        addressColumn.setStyle("-fx-alignment: CENTER;");
+        weaponColumn.setStyle("-fx-alignment: CENTER;");
+        phoneColumn.setStyle("-fx-alignment: CENTER;");
+        relativesColumn.setStyle("-fx-alignment: CENTER;");
+        punishmentColumn.setStyle("-fx-alignment: CENTER;");
+        grantColumn.setStyle("-fx-alignment: CENTER;");
+        militaryNumberColumn.setStyle("-fx-alignment: CENTER;");
+        dateOfBirthColumn.setStyle("-fx-alignment: CENTER;");
+        barcodeColumn.setStyle("-fx-alignment: CENTER;");
 
         table.getColumns().addAll(
                 nameColumn, idColumn, addressColumn,dateOfBirthColumn, weaponColumn,

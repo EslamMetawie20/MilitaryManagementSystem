@@ -26,16 +26,14 @@ public class BarcodeGenerator {
             String fileName = "barcodes/" + data + ".png";
             Path path = new File(fileName).toPath();
 
-            // إنشاء باركود خطي
             Code39Writer barcodeWriter = new Code39Writer();
             BitMatrix bitMatrix = barcodeWriter.encode(
                     data,
                     BarcodeFormat.CODE_39,
-                    300,   // عرض
-                    100    // ارتفاع
+                    450,
+                    150
             );
 
-            // حفظ الباركود كصورة
             MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 
             return fileName;
