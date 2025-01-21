@@ -1,15 +1,12 @@
-package org.example.view;
+package org.example;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
-
-import java.util.Date;
 
 public class AddSoldierView {
     private ObservableList<SoldierRow> soldiers;
@@ -22,36 +19,37 @@ public class AddSoldierView {
         Stage stage = new Stage();
         VBox root = new VBox();
         root.setSpacing(10);
+        root.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-        // إنشاء خانات الإدخال
         TextField nameField = new TextField();
-        nameField.setPromptText("Name");
+        nameField.setPromptText("الاسم");
 
         TextField nationalIdField = new TextField();
-        nationalIdField.setPromptText("National ID");
+        nationalIdField.setPromptText("الرقم القومي");
 
         TextField FieldAddress = new TextField();
-        FieldAddress.setPromptText("Address");
+        FieldAddress.setPromptText("العنوان");
 
         TextField weaponField = new TextField();
-        weaponField.setPromptText("Weapon");
+        weaponField.setPromptText("السلاح");
 
         TextField phoneNumberField = new TextField();
-        phoneNumberField.setPromptText("Phone Number");
+        phoneNumberField.setPromptText("رقم الهاتف");
 
         TextField relativesField = new TextField();
-        relativesField.setPromptText("Relatives");
+        relativesField.setPromptText("الأقارب");
 
         TextField PunishmentsField = new TextField();
-        PunishmentsField.setPromptText("Punishments");
+        PunishmentsField.setPromptText("العقوبات");
 
         TextField GrantField = new TextField();
-        GrantField.setPromptText("Grant");
+        GrantField.setPromptText("المنح");
 
         TextField Militry_NumberField = new TextField();
-        Militry_NumberField.setPromptText("Military Number");
+        Militry_NumberField.setPromptText("الرقم العسكري");
 
-        Button saveButton = new Button("Save");
+        Button saveButton = new Button("حفظ");
+        saveButton.setStyle("-fx-background-color: green; -fx-text-fill: white;");
 
         root.getChildren().addAll(
                 nameField, nationalIdField, FieldAddress, weaponField,
@@ -61,11 +59,10 @@ public class AddSoldierView {
 
         Scene scene = new Scene(root, 400, 400);
         stage.setScene(scene);
-        stage.setTitle("Add Soldier");
+        stage.setTitle("إضافة مجند جديد");
         stage.show();
 
         saveButton.setOnAction(e -> {
-            // إضافة البيانات إلى القائمة
             SoldierRow soldier = new SoldierRow(
                     nameField.getText(),
                     nationalIdField.getText(),
@@ -82,5 +79,4 @@ public class AddSoldierView {
             stage.close();
         });
     }
-
 }

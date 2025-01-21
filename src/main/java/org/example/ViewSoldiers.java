@@ -1,5 +1,6 @@
-package org.example.view;
+package org.example;
 
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -11,39 +12,38 @@ public class ViewSoldiers {
     public void display() {
         Stage stage = new Stage();
         VBox root = new VBox();
+        root.setSpacing(10);
+        root.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-        // إنشاء الجدول لعرض الجنود
         TableView<SoldierRow> table = new TableView<>();
 
-        // أعمدة الجدول
-        TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("الاسم");
         nameColumn.setCellValueFactory(data -> data.getValue().nameProperty());
 
-        TableColumn<SoldierRow, String> idColumn = new TableColumn<>("National ID");
+        TableColumn<SoldierRow, String> idColumn = new TableColumn<>("الرقم القومي");
         idColumn.setCellValueFactory(data -> data.getValue().idProperty());
 
-        TableColumn<SoldierRow, String> addressColumn = new TableColumn<>("Address");
+        TableColumn<SoldierRow, String> addressColumn = new TableColumn<>("العنوان");
         addressColumn.setCellValueFactory(data -> data.getValue().addressProperty());
 
-        TableColumn<SoldierRow, String> weaponColumn = new TableColumn<>("Weapon");
+        TableColumn<SoldierRow, String> weaponColumn = new TableColumn<>("السلاح");
         weaponColumn.setCellValueFactory(data -> data.getValue().weaponProperty());
 
-        TableColumn<SoldierRow, String> phoneColumn = new TableColumn<>("Phone Number");
+        TableColumn<SoldierRow, String> phoneColumn = new TableColumn<>("رقم الهاتف");
         phoneColumn.setCellValueFactory(data -> data.getValue().phoneProperty());
 
-        TableColumn<SoldierRow, String> relativesColumn = new TableColumn<>("Relatives");
+        TableColumn<SoldierRow, String> relativesColumn = new TableColumn<>("الأقارب");
         relativesColumn.setCellValueFactory(data -> data.getValue().relativesProperty());
 
-        TableColumn<SoldierRow, String> punishmentColumn = new TableColumn<>("Punishment");
+        TableColumn<SoldierRow, String> punishmentColumn = new TableColumn<>("العقوبات");
         punishmentColumn.setCellValueFactory(data -> data.getValue().punishmentProperty());
 
-        TableColumn<SoldierRow, String> grantColumn = new TableColumn<>("Grant");
+        TableColumn<SoldierRow, String> grantColumn = new TableColumn<>("المنح");
         grantColumn.setCellValueFactory(data -> data.getValue().grantProperty());
 
-        TableColumn<SoldierRow, String> militaryNumberColumn = new TableColumn<>("Military Number");
+        TableColumn<SoldierRow, String> militaryNumberColumn = new TableColumn<>("الرقم العسكري");
         militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
 
-        // إضافة جميع الأعمدة إلى الجدول
         table.getColumns().addAll(
                 nameColumn,
                 idColumn,
@@ -56,17 +56,15 @@ public class ViewSoldiers {
                 militaryNumberColumn
         );
 
-        // زر الإغلاق
-        Button closeButton = new Button("Close");
+        Button closeButton = new Button("إغلاق");
+        closeButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
         closeButton.setOnAction(e -> stage.close());
 
-        // إضافة الجدول وزر الإغلاق إلى الجذر
         root.getChildren().addAll(table, closeButton);
 
-        // إعدادات المشهد
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
-        stage.setTitle("View Soldiers");
+        stage.setTitle("عرض المجندين");
         stage.show();
     }
 }
