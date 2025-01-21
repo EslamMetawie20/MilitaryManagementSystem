@@ -13,9 +13,9 @@ public class SoldierRow {
     private StringProperty punishment;
     private StringProperty grant;
     private StringProperty militaryNumber;
-
+    private StringProperty barcode;
     public SoldierRow(String name, String id, String address, String weapon, String phone,
-                      String relatives, String punishment, String grant, String militaryNumber) {
+                      String relatives, String punishment, String grant, String militaryNumber, String barcode) {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleStringProperty(id);
         this.address = new SimpleStringProperty(address);
@@ -25,6 +25,7 @@ public class SoldierRow {
         this.punishment = new SimpleStringProperty(punishment);
         this.grant = new SimpleStringProperty(grant);
         this.militaryNumber = new SimpleStringProperty(militaryNumber);
+        this.barcode = new SimpleStringProperty(barcode);
     }
 
     public StringProperty nameProperty() {
@@ -61,5 +62,16 @@ public class SoldierRow {
 
     public StringProperty militaryNumberProperty() {
         return militaryNumber;
+    }
+    public StringProperty barcodeProperty() {
+        return barcode;
+    }
+
+    public String getBarcode() {
+        return barcode.get();
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode.set(barcode);
     }
 }

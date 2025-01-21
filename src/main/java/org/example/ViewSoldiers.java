@@ -44,6 +44,10 @@ public class ViewSoldiers {
         TableColumn<SoldierRow, String> militaryNumberColumn = new TableColumn<>("الرقم العسكري");
         militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
 
+        TableColumn<SoldierRow, String> barcodeColumn = new TableColumn<>("الباركود");
+        barcodeColumn.setCellValueFactory(data -> data.getValue().barcodeProperty());
+        table.getColumns().add(barcodeColumn);
+
         table.getColumns().addAll(
                 nameColumn,
                 idColumn,
@@ -53,7 +57,8 @@ public class ViewSoldiers {
                 relativesColumn,
                 punishmentColumn,
                 grantColumn,
-                militaryNumberColumn
+                militaryNumberColumn,
+                barcodeColumn
         );
 
         Button closeButton = new Button("إغلاق");

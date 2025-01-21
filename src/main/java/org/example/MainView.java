@@ -9,6 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.TableCell;
+import java.io.File;
 
 public class MainView extends Application {
 
@@ -54,10 +58,38 @@ public class MainView extends Application {
         militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
         militaryNumberColumn.setMinWidth(150);
 
+        TableColumn<SoldierRow, String> barcodeColumn = new TableColumn<>("الباركود");
+        barcodeColumn.setCellValueFactory(data -> data.getValue().barcodeProperty());
+        barcodeColumn.setCellFactory(column -> {
+            return new TableCell<>() {
+                private final ImageView imageView = new ImageView();
+
+                @Override
+                protected void updateItem(String barcodePath, boolean empty) {
+                    super.updateItem(barcodePath, empty);
+
+                    if (empty || barcodePath == null) {
+                        setGraphic(null);
+                    } else {
+                        try {
+                            Image image = new Image(new File(barcodePath).toURI().toString());
+                            imageView.setImage(image);
+                            imageView.setFitHeight(50);
+                            imageView.setFitWidth(50);
+                            imageView.setPreserveRatio(true);
+                            setGraphic(imageView);
+                        } catch (Exception e) {
+                            setGraphic(null);
+                        }
+                    }
+                }
+            };
+        });
+
         table.getColumns().addAll(
                 nameColumn, idColumn, addressColumn, weaponColumn,
                 phoneColumn, relativesColumn, punishmentColumn,
-                grantColumn, militaryNumberColumn
+                grantColumn, militaryNumberColumn, barcodeColumn
         );
 
         table.setPlaceholder(new Label("لا يوجد أي مدخلات") {{

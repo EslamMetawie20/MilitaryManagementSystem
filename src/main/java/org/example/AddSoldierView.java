@@ -3,6 +3,7 @@ package org.example;
 import javafx.collections.ObservableList;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -82,23 +83,57 @@ public class AddSoldierView {
         stage.setScene(scene);
         stage.setTitle("إضافة مجند جديد");
         stage.show();
-
         saveButton.setOnAction(e -> {
-            String selectedWeapon = (String) weaponField.getValue();
-            SoldierRow soldier = new SoldierRow(
-                    nameField.getText(),
-                    nationalIdField.getText(),
-                    FieldAddress.getText(),
-                    selectedWeapon,
-                    phoneNumberField.getText(),
-                    relativesField.getText(),
-                    PunishmentsField.getText(),
-                    GrantField.getText(),
-                    Militry_NumberField.getText()
-            );
+            if (nationalIdField.getText().trim().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("خطأ");
+                alert.setHeaderText("الرقم القومي مطلوب");
+                alert.setContentText("الرجاء إدخال الرقم القومي");
+                alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                alert.showAndWait();
+                return;
+            }
 
-            soldiers.add(soldier);
-            stage.close();
+            try {
+                // تنظيف الرقم القومي من أي مسافات
+                String nationalId = nationalIdField.getText().trim();
+                String barcodePath = BarcodeGenerator.generateBarcode(nationalId);
+
+                if (barcodePath != null) {
+                    String weapon = (String) weaponField.getValue();
+                    if (weapon == null) weapon = "";  // للتأكد من عدم وجود null
+
+                    SoldierRow soldier = new SoldierRow(
+                            nameField.getText().trim(),
+                            nationalId,
+                            FieldAddress.getText().trim(),
+                            weapon,
+                            phoneNumberField.getText().trim(),
+                            relativesField.getText().trim(),
+                            PunishmentsField.getText().trim(),
+                            GrantField.getText().trim(),
+                            Militry_NumberField.getText().trim(),
+                            barcodePath
+                    );
+                    soldiers.add(soldier);
+                    stage.close();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("خطأ");
+                    alert.setHeaderText("فشل في إنشاء الباركود");
+                    alert.setContentText("حدث خطأ أثناء إنشاء الباركود");
+                    alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                    alert.showAndWait();
+                }
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("خطأ");
+                alert.setHeaderText("فشل في حفظ البيانات");
+                alert.setContentText("حدث خطأ أثناء حفظ بيانات المجند");
+                alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                alert.showAndWait();
+                ex.printStackTrace();
+            }
         });
     }
 }
