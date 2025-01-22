@@ -38,7 +38,7 @@ public class ViewSoldierDetails {
         VBox barcodeSection = createBarcodeSection(soldier);
 
         // تحسين أزرار التحكم
-        HBox buttonBox = createEnhancedButtons(stage);
+        HBox buttonBox = createEnhancedButtons(stage,soldier);
 
         // إنشاء حاوية رئيسية مع خلفية وتأثيرات
         VBox mainContainer = new VBox(20);
@@ -118,7 +118,7 @@ public class ViewSoldierDetails {
         return barcodeCard;
     }
 
-    private HBox createEnhancedButtons(Stage stage) {
+    private HBox createEnhancedButtons(Stage stage, SoldierRow soldier) {
         Button backButton = new Button("عودة");
         Button printButton = new Button("طباعة");
 
@@ -146,8 +146,9 @@ public class ViewSoldierDetails {
                 printButton.setStyle(buttonStyle.replace("#2196F3", "#4CAF50")));
 
         backButton.setOnAction(e -> stage.close());
-        printButton.setOnAction(e -> System.out.println("تم الطباعة!"));
-
+        printButton.setOnAction(e -> {
+            BarcodeUtils.saveBarcodePDF(stage, soldier);
+        });
         HBox buttonBox = new HBox(20, backButton, printButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(20, 0, 0, 0));
