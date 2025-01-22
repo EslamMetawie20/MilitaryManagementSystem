@@ -127,8 +127,33 @@ public class AddSoldierView {
 
         // Save button action
         saveButton.setOnAction(e -> {
+            if (nameField.getText().trim().isEmpty()) {
+                showAlert("خطأ", "اسم المجند مطلوب", "الرجاء إدخال اسم المجند");
+                return;
+            }
             if (nationalIdField.getText().trim().isEmpty()) {
                 showAlert("خطأ", "الرقم القومي مطلوب", "الرجاء إدخال الرقم القومي");
+                return;
+            }
+            if (!nationalIdField.getText().trim().matches("\\d+")) {
+                showAlert("خطأ", "الرقم القومي غير صحيح", "يجب أن يحتوي الرقم القومي على أرقام فقط بدون أي حروف أو رموز.");
+                return;
+            }
+            if (militaryNumberField.getText().trim().isEmpty()) {
+                showAlert("خطأ", "الرقم العسكري مطلوب", "الرجاء إدخال الرقم العسكري");
+                return;
+            }
+
+            if (!militaryNumberField.getText().trim().matches("\\d+")) {
+                showAlert("خطأ", "الرقم العسكري غير صحيح", "يجب أن يحتوي الرقم العسكري على أرقام فقط بدون أي حروف أو رموز.");
+                return;
+            }
+            if (dateOfBirth.getValue() == null) {
+                showAlert("خطأ", "تاريخ الميلاد مطلوب", "الرجاء إدخال تاريخ الميلاد");
+                return;
+            }
+            if (weaponField.getValue().isEmpty()) {
+                showAlert("خطأ", "نوع سلاح المجتد مطلوب", "الرجاء إدخال نوع السلاح الخاص بالمجند");
                 return;
             }
 
