@@ -24,27 +24,27 @@ public class MainView extends Application {
         primaryStage.setMaximized(true);
         TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("الاسم");
         nameColumn.setCellValueFactory(data -> data.getValue().nameProperty());
-        nameColumn.setMinWidth(100);
+        nameColumn.setMinWidth(150);
 
         TableColumn<SoldierRow, String> idColumn = new TableColumn<>("الرقم القومي");
         idColumn.setCellValueFactory(data -> data.getValue().idProperty());
-        idColumn.setMinWidth(100);
+        idColumn.setMinWidth(150);
 
         TableColumn<SoldierRow, String> addressColumn = new TableColumn<>("العنوان");
         addressColumn.setCellValueFactory(data -> data.getValue().addressProperty());
-        addressColumn.setMinWidth(150);
+        addressColumn.setMinWidth(120);
 
         TableColumn<SoldierRow, String> weaponColumn = new TableColumn<>("السلاح");
         weaponColumn.setCellValueFactory(data -> data.getValue().weaponProperty());
-        weaponColumn.setMinWidth(100);
+        weaponColumn.setMinWidth(90);
 
         TableColumn<SoldierRow, String> phoneColumn = new TableColumn<>("رقم الهاتف");
         phoneColumn.setCellValueFactory(data -> data.getValue().phoneProperty());
-        phoneColumn.setMinWidth(150);
+        phoneColumn.setMinWidth(100);
 
         TableColumn<SoldierRow, String> relativesColumn = new TableColumn<>("الأقارب");
         relativesColumn.setCellValueFactory(data -> data.getValue().relativesProperty());
-        relativesColumn.setMinWidth(150);
+        relativesColumn.setMinWidth(100);
 
         TableColumn<SoldierRow, String> punishmentColumn = new TableColumn<>("العقوبات");
         punishmentColumn.setCellValueFactory(data -> data.getValue().punishmentProperty());
@@ -65,6 +65,7 @@ public class MainView extends Application {
 
         TableColumn<SoldierRow, String> barcodeColumn = new TableColumn<>("الباركود");
         barcodeColumn.setCellValueFactory(data -> data.getValue().barcodeProperty());
+        barcodeColumn.setMinWidth(150);
         barcodeColumn.setCellFactory(column -> {
             return new TableCell<>() {
                 private final ImageView imageView = new ImageView();
@@ -115,9 +116,11 @@ public class MainView extends Application {
         }});
 
         Button addButton = new Button("أضف مجند");
-        addButton.setStyle("-fx-background-color: green; -fx-text-fill: white;");
+        addButton.setStyle("-fx-background-color: green; -fx-text-fill: white; -fx-font-size: 16px; -fx-pref-width: 150px; -fx-pref-height: 50px;");
+
         Button deleteButton = new Button("أحذف مجند");
-        deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 16px; -fx-pref-width: 150px; -fx-pref-height: 50px;");
+
 
         HBox buttonBox = new HBox(10, addButton, deleteButton);
         buttonBox.setStyle("-fx-padding: 10; -fx-alignment: center;");

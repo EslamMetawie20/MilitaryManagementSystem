@@ -3,14 +3,11 @@ package org.example;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import org.example.SoldierRow;
-
 import java.io.File;
 
 public class ViewSoldiers {
@@ -20,9 +17,10 @@ public class ViewSoldiers {
         root.setSpacing(10);
         root.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         stage.setMaximized(true);
+
         TableView<SoldierRow> table = new TableView<>();
 
-        // أعمدة الجدول
+        // Table Columns
         TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("الاسم");
         nameColumn.setCellValueFactory(data -> data.getValue().nameProperty());
         nameColumn.setStyle("-fx-alignment: CENTER;");
@@ -43,29 +41,9 @@ public class ViewSoldiers {
         phoneColumn.setCellValueFactory(data -> data.getValue().phoneProperty());
         phoneColumn.setStyle("-fx-alignment: CENTER;");
 
-        TableColumn<SoldierRow, String> relativesColumn = new TableColumn<>("الأقارب");
-        relativesColumn.setCellValueFactory(data -> data.getValue().relativesProperty());
-        relativesColumn.setStyle("-fx-alignment: CENTER;");
-
-        TableColumn<SoldierRow, String> punishmentColumn = new TableColumn<>("العقوبات");
-        punishmentColumn.setCellValueFactory(data -> data.getValue().punishmentProperty());
-        punishmentColumn.setStyle("-fx-alignment: CENTER;");
-
-        TableColumn<SoldierRow, String> grantColumn = new TableColumn<>("المنح");
-        grantColumn.setCellValueFactory(data -> data.getValue().grantProperty());
-        grantColumn.setStyle("-fx-alignment: CENTER;");
-
-        TableColumn<SoldierRow, String> militaryNumberColumn = new TableColumn<>("الرقم العسكري");
-        militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
-        militaryNumberColumn.setStyle("-fx-alignment: CENTER;");
-
-        TableColumn<SoldierRow, String> dateOfbirthColumn = new TableColumn<>("تاريخ الميلاد");
-        dateOfbirthColumn.setCellValueFactory(data -> data.getValue().dateOfBirthProperty());
-        dateOfbirthColumn.setStyle("-fx-alignment: CENTER;");
-
         TableColumn<SoldierRow, String> barcodeColumn = new TableColumn<>("الباركود");
-        barcodeColumn.setCellFactory(column -> new TableCell<SoldierRow, String>() {
-            private final Pane imageContainer = new Pane();
+        barcodeColumn.setCellFactory(column -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
 
             @Override
             protected void updateItem(String barcodePath, boolean empty) {
@@ -76,57 +54,37 @@ public class ViewSoldiers {
                 } else {
                     try {
                         Image image = new Image(new File(barcodePath).toURI().toString());
-                        ImageView imageView = new ImageView(image);
-
-                        // تكبير الباركود
-                        imageView.setFitHeight(200);
-                        imageView.setFitWidth(400);
+                        imageView.setImage(image);
+                        imageView.setFitHeight(100);
+                        imageView.setFitWidth(200);
                         imageView.setPreserveRatio(true);
-
-                        imageContainer.getChildren().clear();
-                        imageContainer.getChildren().add(imageView);
-                        imageContainer.setPrefSize(400, 200);
-
-                        setGraphic(imageContainer);
+                        setGraphic(imageView);
                     } catch (Exception e) {
                         setGraphic(null);
                     }
                 }
             }
         });
-
-        barcodeColumn.setMinWidth(400);
-        barcodeColumn.setMaxWidth(500);
         barcodeColumn.setStyle("-fx-alignment: CENTER;");
 
-        // توزيع الأعمدة بالتساوي
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
         table.getColumns().addAll(
-                nameColumn,
-                idColumn,
-                addressColumn,
-                dateOfbirthColumn,
-                weaponColumn,
-                phoneColumn,
-                relativesColumn,
-                punishmentColumn,
-                grantColumn,
-                militaryNumberColumn,
-                barcodeColumn
+                nameColumn, idColumn, addressColumn, weaponColumn, phoneColumn, barcodeColumn
         );
 
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setPlaceholder(new Label("لا توجد بيانات لعرضها") {{
+            setStyle("-fx-font-size: 16px; -fx-text-fill: gray;");
+        }});
+
         Button closeButton = new Button("إغلاق");
-        closeButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        closeButton.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 14px;");
         closeButton.setOnAction(e -> stage.close());
 
         root.getChildren().addAll(table, closeButton);
 
         Scene scene = new Scene(root, 900, 600);
-
         stage.setScene(scene);
         stage.setTitle("عرض المجندين");
-
         stage.show();
     }
 }
