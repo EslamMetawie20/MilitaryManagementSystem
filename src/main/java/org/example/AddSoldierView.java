@@ -68,9 +68,13 @@ public class AddSoldierView {
         TextField addressField = createStyledTextField("العنوان");
         TextField phoneNumberField = createStyledTextField("رقم الهاتف");
         TextField relativesField = createStyledTextField("الأقارب");
-        TextField punishmentsField = createStyledTextField("العقوبات");
-        TextField grantField = createStyledTextField("المنح");
+        NumberedTextArea numberedPunishments = new NumberedTextArea();
+        numberedPunishments.getTextArea().setPromptText("العقوبات");
+        numberedPunishments.getTextArea().setStyle(FIELD_STYLE);
+        numberedPunishments.getTextArea().setPrefWidth(200);
+        numberedPunishments.getTextArea().setPrefHeight(100);
 
+        TextField grantField = createStyledTextField("المنح");
         ComboBox<String> weaponField = new ComboBox<>();
         weaponField.setPromptText("السلاح");
         weaponField.setStyle(FIELD_STYLE);
@@ -108,7 +112,7 @@ public class AddSoldierView {
         addFieldToGrid(formGrid, "السلاح", weaponField, 5);
         addFieldToGrid(formGrid, "رقم الهاتف", phoneNumberField, 6);
         addFieldToGrid(formGrid, "الأقارب", relativesField, 7);
-        addFieldToGrid(formGrid, "العقوبات", punishmentsField, 8);
+        addFieldToGrid(formGrid, "العقوبات",numberedPunishments.getTextArea() , 8);
         addFieldToGrid(formGrid, "المنح", grantField, 9);
 
         // Create and style save button
@@ -188,7 +192,7 @@ public class AddSoldierView {
                             weapon,
                             phoneNumberField.getText().trim(),
                             relativesField.getText().trim(),
-                            punishmentsField.getText().trim(),
+                            numberedPunishments.getTextArea().getText().trim(),
                             grantField.getText().trim(),
                             militaryNumberField.getText().trim(),
                             barcodePath
@@ -201,7 +205,6 @@ public class AddSoldierView {
                     successAlert.setHeaderText(null);
                     successAlert.setContentText("تم إضافة المجند بنجاح!");
                     successAlert.showAndWait();
-// إضافة الجندي للواجهة
                     stage.close();
                 } else {
                     showAlert("خطأ", "فشل في إنشاء الباركود", "حدث خطأ أثناء إنشاء الباركود");
@@ -248,7 +251,7 @@ public class AddSoldierView {
         TextField addressField = createStyledTextField("العنوان");
         TextField phoneNumberField = createStyledTextField("رقم الهاتف");
         TextField relativesField = createStyledTextField("الأقارب");
-        TextField punishmentsField = createStyledTextField("العقوبات");
+        NumberedTextArea punishmentsField=new NumberedTextArea();
         TextField grantField = createStyledTextField("المنح");
 
         ComboBox<String> weaponField = new ComboBox<>();
@@ -274,7 +277,7 @@ public class AddSoldierView {
         addressField.setText(soldier.addressProperty().get());
         phoneNumberField.setText(soldier.phoneProperty().get());
         relativesField.setText(soldier.relativesProperty().get());
-        punishmentsField.setText(soldier.punishmentProperty().get());
+        punishmentsField.getTextArea().setText(soldier.punishmentProperty().get());
         grantField.setText(soldier.grantProperty().get());
         weaponField.setValue(soldier.weaponProperty().get());
         dateOfBirth.setValue(LocalDate.parse(soldier.dateOfBirthProperty().get()));
@@ -304,7 +307,7 @@ public class AddSoldierView {
             soldier.addressProperty().set(addressField.getText().trim());
             soldier.phoneProperty().set(phoneNumberField.getText().trim());
             soldier.relativesProperty().set(relativesField.getText().trim());
-            soldier.punishmentProperty().set(punishmentsField.getText().trim());
+            soldier.punishmentProperty().set(punishmentsField.getTextArea().getText().trim());
             soldier.grantProperty().set(grantField.getText().trim());
             soldier.weaponProperty().set(weaponField.getValue());
             soldier.dateOfBirthProperty().set(dateOfBirth.getValue().toString());
@@ -330,7 +333,7 @@ public class AddSoldierView {
         addFieldToGrid(formGrid, "السلاح", weaponField, 5);
         addFieldToGrid(formGrid, "رقم الهاتف", phoneNumberField, 6);
         addFieldToGrid(formGrid, "الأقارب", relativesField, 7);
-        addFieldToGrid(formGrid, "العقوبات", punishmentsField, 8);
+        addFieldToGrid(formGrid, "العقوبات", punishmentsField.getTextArea(), 8);
         addFieldToGrid(formGrid, "المنح", grantField, 9);
 
         mainContainer.getChildren().addAll(titleLabel, formGrid, saveButton);
