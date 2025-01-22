@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TableCell;
+import org.example.database.DatabaseHelper;
+
 import java.io.File;
 
 public class MainView extends Application {
@@ -20,6 +22,9 @@ public class MainView extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        soldiers.addAll(DatabaseHelper.loadSoldiers());
+
         TableView<SoldierRow> table = new TableView<>(soldiers);
         primaryStage.setMaximized(true);
         TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("الاسم");
@@ -106,8 +111,20 @@ public class MainView extends Application {
 
             MenuItem editItem = new MenuItem("تعديل");
             editItem.setOnAction(e -> {
-                System.out.println("تعديل المجند: " + row.getItem().nameProperty().get());
+                SoldierRow selected = table.getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    AddSoldierView editView = new AddSoldierView(soldiers);
+                    editView.displayForEdit(selected); // تمرير الجندي المحدد
+                    System.out.println("تعديل المجند: " + selected.nameProperty().get());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("تحذير");
+                    alert.setHeaderText(null);
+                    alert.setContentText("قم باختيار مجند للتعديل.");
+                    alert.showAndWait();
+                }
             });
+
 
             contextMenu.getItems().addAll(viewItem, editItem);
             row.setContextMenu(contextMenu);
@@ -202,7 +219,19 @@ public class MainView extends Application {
 
                     confirmationAlert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.OK) {
+                            // حذف من قاعدة البيانات
+                            DatabaseHelper.deleteSoldier(selected.idProperty().get());
+
+                            // حذف من القائمة
                             soldiers.remove(selected);
+
+                            // عرض رسالة نجاح
+                            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                            successAlert.setTitle("تم الحذف");
+                            successAlert.setHeaderText(null);
+                            successAlert.setContentText("تم حذف المجند بنجاح.");
+                            successAlert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                            successAlert.showAndWait();
                         }
                     });
                 } else {
@@ -215,6 +244,7 @@ public class MainView extends Application {
                 }
             }
         });
+
     }
 
     public static void main(String[] args) {

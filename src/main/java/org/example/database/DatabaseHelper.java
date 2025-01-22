@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 public class DatabaseHelper {
-    private static final String DB_URL = "jdbc:sqlite:src/main/resources/soldiers.db";
+    private static final String DB_URL = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/soldiers.db";
 
     // الاتصال بقاعدة البيانات
     public static Connection connect() {
@@ -22,6 +22,7 @@ public class DatabaseHelper {
             return null;
         }
     }
+
 
     // إنشاء الجدول لو مش موجود
     public static void createTable() {
