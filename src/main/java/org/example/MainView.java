@@ -92,6 +92,28 @@ public class MainView extends Application {
             };
         });
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setRowFactory(tv -> {
+            TableRow<SoldierRow> row = new TableRow<>();
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem viewItem = new MenuItem("عرض");
+            viewItem.setOnAction(e -> {
+                SoldierRow selectedSoldier = row.getItem();
+                if (selectedSoldier != null) {
+                    new ViewSoldierDetails().display(selectedSoldier);
+                }
+            });
+
+            MenuItem editItem = new MenuItem("تعديل");
+            editItem.setOnAction(e -> {
+                System.out.println("تعديل المجند: " + row.getItem().nameProperty().get());
+            });
+
+            contextMenu.getItems().addAll(viewItem, editItem);
+            row.setContextMenu(contextMenu);
+
+            return row;
+        });
 
         nameColumn.setStyle("-fx-alignment: CENTER;");
         idColumn.setStyle("-fx-alignment: CENTER;");
