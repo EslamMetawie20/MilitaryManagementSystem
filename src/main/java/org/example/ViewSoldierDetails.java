@@ -122,6 +122,7 @@ public class ViewSoldierDetails {
         Button backButton = new Button("عودة");
         Button printButton = new Button("طباعة");
 
+
         String buttonStyle = """
             -fx-background-color: #2196F3;
             -fx-text-fill: white;
@@ -133,7 +134,6 @@ public class ViewSoldierDetails {
 
         backButton.setStyle(buttonStyle);
         printButton.setStyle(buttonStyle.replace("#2196F3", "#4CAF50"));
-
         // إضافة تأثير hover
         backButton.setOnMouseEntered(e ->
                 backButton.setStyle(buttonStyle.replace("#2196F3", "#1976D2")));

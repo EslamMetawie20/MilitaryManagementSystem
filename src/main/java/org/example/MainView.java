@@ -170,6 +170,17 @@ public class MainView extends Application {
         -fx-background-radius: 5;
         -fx-cursor: hand;
     """;
+        Button searchButton = new Button("بحث عن مجند");
+        searchButton.setStyle("""
+    -fx-background-color: #28A745; 
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+""");
+        searchButton.setOnAction(e -> {
+            new SearchSoldierView(soldiers).display();
+        });
 
         Button addButton = new Button("أضف مجند");
         addButton.setStyle(addButtonStyle);
@@ -181,7 +192,7 @@ public class MainView extends Application {
         deleteButton.setOnMouseEntered(e -> deleteButton.setStyle(deleteButtonStyle.replace("#FF3B3B", "#B71C1C"))); // عند التمرير
         deleteButton.setOnMouseExited(e -> deleteButton.setStyle(deleteButtonStyle));
 
-        HBox buttonBox = new HBox(10, addButton, deleteButton);
+        HBox buttonBox = new HBox(10, addButton, deleteButton, searchButton);
         buttonBox.setStyle("-fx-padding: 10; -fx-alignment: center;");
 
         BorderPane root = new BorderPane();
