@@ -138,8 +138,8 @@ public class AddSoldierView {
         // Add all components to main container
         mainContainer.getChildren().addAll(titleLabel, formGrid, buttonContainer);
 
-        // Create scene and show stage
-        Scene scene = new Scene(mainContainer, 450, 700);
+        Scene scene = new Scene(mainContainer, 600, 700);
+
         stage.setScene(scene);
         stage.setTitle("إضافة مجند جديد");
         stage.show();
@@ -219,6 +219,8 @@ public class AddSoldierView {
 
     public void displayForEdit(SoldierRow soldier) {
         Stage stage = new Stage();
+        stage.setMinWidth(700);
+        stage.setMaxWidth(800);
 
         // Create main container
         VBox mainContainer = new VBox();
@@ -228,7 +230,7 @@ public class AddSoldierView {
         -fx-spacing: 15;
         """);
         mainContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-
+        mainContainer.setMaxWidth(500);
         // Title
         Label titleLabel = new Label("تعديل بيانات المجند");
         titleLabel.setStyle("""
