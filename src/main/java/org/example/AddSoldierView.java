@@ -10,6 +10,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 
+import java.time.LocalDate;
+
 public class AddSoldierView {
     private ObservableList<SoldierRow> soldiers;
     private static final String FIELD_STYLE = """
@@ -80,10 +82,22 @@ public class AddSoldierView {
         );
 
         DatePicker dateOfBirth = new DatePicker();
+
         dateOfBirth.setPromptText("تاريخ الميلاد");
         dateOfBirth.setStyle(FIELD_STYLE);
         dateOfBirth.setPrefWidth(250);
+        dateOfBirth.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                if (date.isAfter(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;");
+                }
+            }
+        });
 
+        dateOfBirth.setValue(LocalDate.of(2000, 1, 1));
         // Add fields to grid
         addFieldToGrid(formGrid, "الاسم", nameField, 0);
         addFieldToGrid(formGrid, "الرقم القومي", nationalIdField, 1);
