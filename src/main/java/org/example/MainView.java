@@ -136,13 +136,33 @@ public class MainView extends Application {
         table.setPlaceholder(new Label("لا يوجد أي مدخلات") {{
             setStyle("-fx-font-size: 16px; -fx-text-fill: gray;");
         }});
+        String addButtonStyle = """
+        -fx-background-color: #007BFF; 
+        -fx-text-fill: white;
+        -fx-font-size: 14px;
+        -fx-padding: 10 20;
+        -fx-background-radius: 5;
+        -fx-cursor: hand;
+    """;
+
+        String deleteButtonStyle = """
+        -fx-background-color: #FF3B3B;
+        -fx-text-fill: white;
+        -fx-font-size: 14px;
+        -fx-padding: 10 20;
+        -fx-background-radius: 5;
+        -fx-cursor: hand;
+    """;
 
         Button addButton = new Button("أضف مجند");
-        addButton.setStyle("-fx-background-color: green; -fx-text-fill: white; -fx-font-size: 16px; -fx-pref-width: 150px; -fx-pref-height: 50px;");
+        addButton.setStyle(addButtonStyle);
+        addButton.setOnMouseEntered(e -> addButton.setStyle(addButtonStyle.replace("#007BFF", "#0056B3"))); // عند التمرير
+        addButton.setOnMouseExited(e -> addButton.setStyle(addButtonStyle));
 
         Button deleteButton = new Button("أحذف مجند");
-        deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 16px; -fx-pref-width: 150px; -fx-pref-height: 50px;");
-
+        deleteButton.setStyle(deleteButtonStyle);
+        deleteButton.setOnMouseEntered(e -> deleteButton.setStyle(deleteButtonStyle.replace("#FF3B3B", "#B71C1C"))); // عند التمرير
+        deleteButton.setOnMouseExited(e -> deleteButton.setStyle(deleteButtonStyle));
 
         HBox buttonBox = new HBox(10, addButton, deleteButton);
         buttonBox.setStyle("-fx-padding: 10; -fx-alignment: center;");

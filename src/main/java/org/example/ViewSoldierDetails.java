@@ -2,16 +2,18 @@ package org.example;
 
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
 
 import java.io.File;
 
@@ -24,87 +26,151 @@ public class ViewSoldierDetails {
         // إنشاء قسم عرض البيانات
         GridPane detailsGrid = new GridPane();
         detailsGrid.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-        detailsGrid.setHgap(10);
-        detailsGrid.setVgap(10);
+        detailsGrid.setHgap(15);
+        detailsGrid.setVgap(15);
+        detailsGrid.setPadding(new Insets(20));
+        detailsGrid.setStyle("-fx-background-color: white;");
 
         // إضافة البيانات إلى الـ GridPane
-        detailsGrid.add(createLabel("الاسم:"), 0, 0);
-        detailsGrid.add(createValueLabel(soldier.nameProperty().get()), 1, 0);
+        addDetailsToGrid(detailsGrid, soldier);
 
-        detailsGrid.add(createLabel("الرقم القومي:"), 0, 1);
-        detailsGrid.add(createValueLabel(soldier.idProperty().get()), 1, 1);
+        // إنشاء قسم عرض الباركود مع تحسينات
+        VBox barcodeSection = createBarcodeSection(soldier);
 
-        detailsGrid.add(createLabel("العنوان:"), 0, 2);
-        detailsGrid.add(createValueLabel(soldier.addressProperty().get()), 1, 2);
+        // تحسين أزرار التحكم
+        HBox buttonBox = createEnhancedButtons(stage);
 
-        detailsGrid.add(createLabel("تاريخ الميلاد:"), 0, 3);
-        detailsGrid.add(createValueLabel(soldier.dateOfBirthProperty().get()), 1, 3);
+        // إنشاء حاوية رئيسية مع خلفية وتأثيرات
+        VBox mainContainer = new VBox(20);
+        mainContainer.setStyle("-fx-background-color: #f5f5f5;");
+        mainContainer.setPadding(new Insets(20));
 
-        detailsGrid.add(createLabel("السلاح:"), 0, 4);
-        detailsGrid.add(createValueLabel(soldier.weaponProperty().get()), 1, 4);
+        // إنشاء بطاقة للتفاصيل
+        VBox detailsCard = new VBox(detailsGrid);
+        detailsCard.setStyle("""
+            -fx-background-color: white;
+            -fx-background-radius: 10;
+            -fx-padding: 20;
+            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+        """);
 
-        detailsGrid.add(createLabel("رقم الهاتف:"), 0, 5);
-        detailsGrid.add(createValueLabel(soldier.phoneProperty().get()), 1, 5);
+        // تجميع المحتويات في النافذة
+        HBox contentBox = new HBox(20);
+        contentBox.getChildren().addAll(barcodeSection, detailsCard);
+        contentBox.setAlignment(Pos.CENTER);
 
-        detailsGrid.add(createLabel("الأقارب:"), 0, 6);
-        detailsGrid.add(createValueLabel(soldier.relativesProperty().get()), 1, 6);
+        mainContainer.getChildren().addAll(contentBox, buttonBox);
 
-        detailsGrid.add(createLabel("العقوبات:"), 0, 7);
-        detailsGrid.add(createValueLabel(soldier.punishmentProperty().get()), 1, 7);
+        // إضافة ScrollPane للتمرير عند الحاجة
+        ScrollPane scrollPane = new ScrollPane(mainContainer);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background: #f5f5f5; -fx-background-color: #f5f5f5;");
 
-        detailsGrid.add(createLabel("المنح:"), 0, 8);
-        detailsGrid.add(createValueLabel(soldier.grantProperty().get()), 1, 8);
+        // تحسين حجم النافذة
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth() * 0.8;
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight() * 0.8;
+        Scene scene = new Scene(scrollPane, screenWidth, screenHeight);
+        stage.setScene(scene);
+        stage.show();
+    }
 
-        detailsGrid.add(createLabel("الرقم العسكري:"), 0, 9);
-        detailsGrid.add(createValueLabel(soldier.militaryNumberProperty().get()), 1, 9);
+    private void addDetailsToGrid(GridPane grid, SoldierRow soldier) {
+        String[][] details = {
+                {"الاسم:", soldier.nameProperty().get()},
+                {"الرقم القومي:", soldier.idProperty().get()},
+                {"العنوان:", soldier.addressProperty().get()},
+                {"تاريخ الميلاد:", soldier.dateOfBirthProperty().get()},
+                {"السلاح:", soldier.weaponProperty().get()},
+                {"رقم الهاتف:", soldier.phoneProperty().get()},
+                {"الأقارب:", soldier.relativesProperty().get()},
+                {"العقوبات:", soldier.punishmentProperty().get()},
+                {"المنح:", soldier.grantProperty().get()},
+                {"الرقم العسكري:", soldier.militaryNumberProperty().get()}
+        };
 
-        // إنشاء قسم عرض الباركود
+        for (int i = 0; i < details.length; i++) {
+            grid.add(createLabel(details[i][0]), 0, i);
+            grid.add(createValueLabel(details[i][1]), 1, i);
+        }
+    }
+
+    private VBox createBarcodeSection(SoldierRow soldier) {
         ImageView barcodeImage = new ImageView();
         try {
             File barcodeFile = new File(soldier.getBarcode());
             Image image = new Image(barcodeFile.toURI().toString());
             barcodeImage.setImage(image);
-            barcodeImage.setFitWidth(300);
+            barcodeImage.setFitWidth(250);
             barcodeImage.setPreserveRatio(true);
         } catch (Exception e) {
             barcodeImage.setImage(null);
         }
 
-        VBox barcodeBox = new VBox(barcodeImage);
-        barcodeBox.setAlignment(Pos.CENTER);
+        VBox barcodeCard = new VBox(15, barcodeImage);
+        barcodeCard.setAlignment(Pos.CENTER);
+        barcodeCard.setStyle("""
+            -fx-background-color: white;
+            -fx-background-radius: 10;
+            -fx-padding: 20;
+            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+        """);
 
-        // أزرار التحكم
+        return barcodeCard;
+    }
+
+    private HBox createEnhancedButtons(Stage stage) {
         Button backButton = new Button("عودة");
         Button printButton = new Button("طباعة");
-        HBox buttonBox = new HBox(20, backButton, printButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setStyle("-fx-padding: 20;");
 
-        // إضافة الأحداث
+        String buttonStyle = """
+            -fx-background-color: #2196F3;
+            -fx-text-fill: white;
+            -fx-font-size: 14px;
+            -fx-padding: 10 20;
+            -fx-background-radius: 5;
+            -fx-cursor: hand;
+        """;
+
+        backButton.setStyle(buttonStyle);
+        printButton.setStyle(buttonStyle.replace("#2196F3", "#4CAF50"));
+
+        // إضافة تأثير hover
+        backButton.setOnMouseEntered(e ->
+                backButton.setStyle(buttonStyle.replace("#2196F3", "#1976D2")));
+        backButton.setOnMouseExited(e ->
+                backButton.setStyle(buttonStyle));
+
+        printButton.setOnMouseEntered(e ->
+                printButton.setStyle(buttonStyle.replace("#2196F3", "#388E3C")));
+        printButton.setOnMouseExited(e ->
+                printButton.setStyle(buttonStyle.replace("#2196F3", "#4CAF50")));
+
         backButton.setOnAction(e -> stage.close());
         printButton.setOnAction(e -> System.out.println("تم الطباعة!"));
 
-        // تجميع المحتويات في النافذة
-        BorderPane root = new BorderPane();
-        root.setCenter(detailsGrid);
-        root.setLeft(barcodeBox);
-        root.setBottom(buttonBox);
-        root.setStyle("-fx-padding: 20;");
+        HBox buttonBox = new HBox(20, backButton, printButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20, 0, 0, 0));
 
-        Scene scene = new Scene(root, 800, 600);
-        stage.setScene(scene);
-        stage.show();
+        return buttonBox;
     }
 
     private Label createLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        label.setStyle("""
+            -fx-font-size: 16px;
+            -fx-font-weight: bold;
+            -fx-text-fill: #1976D2;
+        """);
         return label;
     }
 
     private Label createValueLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-font-size: 14px;");
+        label.setStyle("""
+            -fx-font-size: 14px;
+            -fx-text-fill: #424242;
+        """);
         return label;
     }
 }
