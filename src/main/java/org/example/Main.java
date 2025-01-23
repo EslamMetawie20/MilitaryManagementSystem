@@ -16,7 +16,8 @@ public class Main {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        MainView.main(args);
+        //MainView.main(args);
+        PasswordLockApp.main(args);
 
     }
 }

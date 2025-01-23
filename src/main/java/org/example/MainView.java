@@ -26,7 +26,7 @@ public class MainView extends Application {
         soldiers.addAll(DatabaseHelper.loadSoldiers());
 
         TableView<SoldierRow> table = new TableView<>(soldiers);
-        primaryStage.setMaximized(true);
+        primaryStage.setFullScreen(true);
         TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("الاسم");
         nameColumn.setCellValueFactory(data -> data.getValue().nameProperty());
         nameColumn.setMinWidth(150);
@@ -258,7 +258,4 @@ public class MainView extends Application {
 
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
