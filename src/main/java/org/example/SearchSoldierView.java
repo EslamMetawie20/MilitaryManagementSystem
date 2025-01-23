@@ -47,10 +47,18 @@ public class SearchSoldierView {
 
         // جدول لعرض النتائج
         TableView<SoldierRow> resultsTable = new TableView<>();
+
+        // عمود الاسم
         TableColumn<SoldierRow, String> nameColumn = new TableColumn<>("الاسم");
         nameColumn.setCellValueFactory(data -> data.getValue().nameProperty());
         nameColumn.setStyle("-fx-alignment: CENTER;");
-        resultsTable.getColumns().add(nameColumn);
+
+        // عمود الرقم العسكري
+        TableColumn<SoldierRow, String> militaryNumberColumn = new TableColumn<>("الرقم العسكري");
+        militaryNumberColumn.setCellValueFactory(data -> data.getValue().militaryNumberProperty());
+        militaryNumberColumn.setStyle("-fx-alignment: CENTER;");
+
+        resultsTable.getColumns().addAll(nameColumn, militaryNumberColumn);
         resultsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         resultsTable.setPlaceholder(new Label("لا توجد نتائج"));
 
@@ -79,12 +87,28 @@ public class SearchSoldierView {
         // عند الضغط على اسم مجند في الجدول
         resultsTable.setRowFactory(tv -> {
             TableRow<SoldierRow> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty()) {
-                    SoldierRow selectedSoldier = row.getItem();
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem viewItem = new MenuItem("عرض");
+            viewItem.setOnAction(e -> {
+                SoldierRow selectedSoldier = row.getItem();
+                if (selectedSoldier != null) {
                     new ViewSoldierDetails().display(selectedSoldier);
                 }
             });
+
+            MenuItem editItem = new MenuItem("تعديل");
+            editItem.setOnAction(e -> {
+                SoldierRow selectedSoldier = row.getItem();
+                if (selectedSoldier != null) {
+                    AddSoldierView editView = new AddSoldierView(soldiers);
+                    editView.displayForEdit(selectedSoldier);
+                }
+            });
+
+            contextMenu.getItems().addAll(viewItem, editItem);
+            row.setContextMenu(contextMenu);
+
             return row;
         });
 

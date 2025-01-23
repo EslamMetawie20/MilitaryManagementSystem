@@ -138,7 +138,7 @@ public class AddSoldierView {
         // Add all components to main container
         mainContainer.getChildren().addAll(titleLabel, formGrid, buttonContainer);
 
-        Scene scene = new Scene(mainContainer, 600, 700);
+        Scene scene = new Scene(mainContainer, 600, 750);
 
         stage.setScene(scene);
         stage.setTitle("إضافة مجند جديد");
